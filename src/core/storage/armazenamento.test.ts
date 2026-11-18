@@ -82,7 +82,7 @@ describe('formatarBytes', () => {
   it('formata tamanhos', () => {
     expect(formatarBytes(0)).toBe('0 B');
     expect(formatarBytes(1536)).toMatch(/^1[.,]5 KB$/);
-    expect(formatarBytes(5 * 1024 * 1024)).toMatch(/^5 MB$/);
+    expect(formatarBytes(5 * 1024 * 1024)).toMatch(/^5[.,]0 MB$/);
   });
 
   it('trata valores inválidos', () => {
