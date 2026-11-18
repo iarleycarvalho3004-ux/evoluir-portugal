@@ -1,0 +1,26 @@
+name: Importar projeto
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  importar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extrair projeto.zip e salvar no repositório
+        run: |
+          test -f projeto.zip || { echo "Arquivo projeto.zip não encontrado na raiz do repositório."; exit 1; }
+          mkdir /tmp/proj
+          unzip -q projeto.zip -d /tmp/proj
+          test -f /tmp/proj/package.json || { echo "package.json não encontrado na raiz do zip."; exit 1; }
+          cp -a /tmp/proj/. .
+          rm projeto.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Importa projeto (Etapa 2A)"
+          git push
