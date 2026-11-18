@@ -1,0 +1,39 @@
+:root {
+  /* Cores aprovadas */
+  --verde: #046a38;
+  --vermelho: #da291c;
+  --branco: #f5f2e9;
+  --grafite: #151515;
+
+  /* Tons derivados do grafite e do branco */
+  --superficie: #1f1f1d;
+  --superficie-alta: #2a2a27;
+  --borda: rgba(245, 242, 233, 0.1);
+  --borda-forte: rgba(245, 242, 233, 0.24);
+  --texto-suave: #b5b2a8;
+  --texto-fraco: #8c8a82;
+  --verde-realce: #1f9d5c;
+
+  /* Tipografia */
+  --fonte-titulo: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --fonte-texto: 'Barlow', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  /* Espaçamento (escala de 4 px) */
+  --esp-1: 4px;
+  --esp-2: 8px;
+  --esp-3: 12px;
+  --esp-4: 16px;
+  --esp-5: 20px;
+  --esp-6: 24px;
+  --esp-8: 32px;
+
+  /* Formas e medidas */
+  --raio-cartao: 16px;
+  --raio-controle: 12px;
+  --raio-pilula: 999px;
+  --altura-nav: 64px;
+  --toque-min: 44px;
+  --largura-max: 560px;
+
+  color-scheme: dark;
+}

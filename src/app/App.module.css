@@ -1,38 +1,10 @@
-.pagina {
-  min-height: 100dvh;
-  padding: calc(env(safe-area-inset-top, 0px) + 32px) 24px calc(env(safe-area-inset-bottom, 0px) + 32px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 24px;
-  max-width: 480px;
+.app { min-height: 100dvh; }
+.conteudo {
+  width: 100%;
+  max-width: var(--largura-max);
   margin: 0 auto;
+  padding:
+    calc(env(safe-area-inset-top, 0px) + var(--esp-8))
+    var(--esp-5)
+    calc(var(--altura-nav) + env(safe-area-inset-bottom, 0px) + var(--esp-6));
 }
-
-.faixa {
-  display: flex;
-  height: 6px;
-  width: 96px;
-}
-.faixa span:first-child { flex: 3; background: var(--verde); }
-.faixa span:last-child { flex: 2; background: var(--vermelho); }
-
-.titulo {
-  margin: 0;
-  font-size: 2rem;
-  line-height: 1.1;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-}
-
-.texto { margin: 0; line-height: 1.5; opacity: 0.85; }
-
-.dados {
-  margin: 0;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 8px 16px;
-  font-size: 0.95rem;
-}
-.dados dt { opacity: 0.6; }
-.dados dd { margin: 0; }

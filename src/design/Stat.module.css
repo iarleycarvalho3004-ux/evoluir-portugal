@@ -1,0 +1,11 @@
+.rotulo { color: var(--texto-suave); font-size: 0.8125rem; }
+.valor {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.1;
+  margin-top: var(--esp-1);
+  font-variant-numeric: tabular-nums;
+}
+.unidade { font-family: var(--fonte-texto); font-weight: 400; font-size: 0.875rem; color: var(--texto-suave); }
+.nota { color: var(--texto-fraco); font-size: 0.75rem; margin-top: var(--esp-2); }

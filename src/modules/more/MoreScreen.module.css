@@ -1,0 +1,9 @@
+.lista { list-style: none; margin: 0; padding: 0; }
+.linha { display: flex; align-items: center; gap: var(--esp-3); padding: var(--esp-3) 0; color: var(--texto-suave); }
+.linha + .linha { border-top: 1px solid var(--borda); }
+.texto { flex: 1; min-width: 0; }
+.nome { color: var(--branco); font-weight: 500; }
+.descricao { font-size: 0.8125rem; }
+.etapa { font-size: 0.75rem; border: 1px solid var(--borda-forte); border-radius: var(--raio-pilula); padding: var(--esp-1) var(--esp-3); white-space: nowrap; }
+.versao { display: grid; grid-template-columns: auto 1fr; gap: var(--esp-1) var(--esp-4); margin: var(--esp-6) 0 0; font-size: 0.8125rem; color: var(--texto-fraco); }
+.versao dd { margin: 0; color: var(--texto-suave); }

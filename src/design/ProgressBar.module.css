@@ -1,0 +1,2 @@
+.trilho { height: 8px; border-radius: var(--raio-pilula); background: var(--superficie-alta); overflow: hidden; }
+.preenchimento { height: 100%; background: var(--verde-realce); border-radius: var(--raio-pilula); transition: width 0.25s ease; }

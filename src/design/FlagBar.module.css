@@ -1,0 +1,5 @@
+.faixa { display: flex; }
+.media { width: 56px; height: 4px; }
+.pequena { width: 20px; height: 3px; }
+.verde { flex: 2; background: var(--verde); }
+.vermelha { flex: 3; background: var(--vermelho); }

@@ -1,0 +1,20 @@
+.icone {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--raio-controle);
+  background: var(--verde);
+  color: var(--branco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--esp-4);
+}
+.titulo { font-size: 1.0625rem; font-weight: 500; margin-bottom: var(--esp-2); }
+.descricao { color: var(--texto-suave); font-size: 0.9375rem; margin-bottom: var(--esp-4); }
+.etapa {
+  display: inline-block;
+  font-size: 0.75rem;
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio-pilula);
+  padding: var(--esp-1) var(--esp-3);
+}
