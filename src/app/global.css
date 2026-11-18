@@ -1,0 +1,18 @@
+/* Cores aprovadas. A Etapa 2B substituirá isto pelo sistema de design completo. */
+:root {
+  --verde: #046a38;
+  --vermelho: #da291c;
+  --branco: #f5f2e9;
+  --grafite: #151515;
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--grafite);
+  color: var(--branco);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
