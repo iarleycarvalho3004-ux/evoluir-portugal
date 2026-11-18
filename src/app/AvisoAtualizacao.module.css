@@ -1,0 +1,18 @@
+.aviso {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  bottom: calc(var(--altura-nav) + env(safe-area-inset-bottom, 0px) + var(--esp-3));
+  transform: translateX(-50%);
+  width: calc(100% - 2 * var(--esp-4));
+  max-width: calc(var(--largura-max) - 2 * var(--esp-4));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-3);
+  padding: var(--esp-3) var(--esp-4);
+  background: var(--superficie-alta);
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio-cartao);
+}
+.texto { font-weight: 500; }

@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { Abertura } from './app/Abertura';
 import { App } from './app/App';
 import './design/tokens.css';
 import './app/global.css';
@@ -13,5 +14,6 @@ createRoot(root).render(
     <BrowserRouter>
       <App />
     </BrowserRouter>
+    <Abertura />
   </StrictMode>,
 );

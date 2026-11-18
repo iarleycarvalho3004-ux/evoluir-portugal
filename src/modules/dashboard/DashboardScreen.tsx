@@ -14,7 +14,7 @@ export function DashboardScreen() {
         icon={LayoutDashboard}
         title="Seu painel começa vazio"
         description="Ele reúne peso, treino e alimentação e se preenche conforme os módulos forem liberados."
-        availableIn="Etapa 7"
+        availableIn="V5.0"
       />
     </>
   );

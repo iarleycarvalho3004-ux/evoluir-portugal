@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { App } from './App';
 import { navItems } from './navigation';
@@ -53,5 +53,30 @@ describe('navegação', () => {
     renderizar('/rota-que-nao-existe');
     expect(screen.getByRole('heading', { level: 1, name: 'Página não encontrada' })).toBeTruthy();
     expect(screen.getByRole('link', { name: 'Voltar ao início' })).toBeTruthy();
+  });
+});
+
+describe('aviso de nova versão', () => {
+  function renderizarComVersao(buildTime: string) {
+    const buscarVersao = async () => ({ version: '9.9.9', buildTime });
+    return render(
+      <MemoryRouter initialEntries={['/']}>
+        <App buscarVersao={buscarVersao} />
+      </MemoryRouter>,
+    );
+  }
+
+  it('aparece quando existe uma versão publicada diferente', async () => {
+    renderizarComVersao('2099-01-01T00:00:00.000Z');
+    expect(await screen.findByText('Nova versão disponível')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Atualizar' })).toBeTruthy();
+  });
+
+  it('não aparece quando a versão publicada é a mesma', async () => {
+    renderizarComVersao(__BUILD_TIME__);
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(screen.queryByText('Nova versão disponível')).toBeNull();
   });
 });

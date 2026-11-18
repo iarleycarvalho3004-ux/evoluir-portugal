@@ -9,7 +9,7 @@ export function NutritionScreen() {
         icon={Apple}
         title="Planeje suas refeições"
         description="Plano alimentar, registro diário e lista de compras aparecem aqui quando o módulo for liberado."
-        availableIn="Etapa 4"
+        availableIn="V2.0"
       />
     </>
   );

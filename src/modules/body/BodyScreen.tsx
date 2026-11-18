@@ -9,7 +9,7 @@ export function BodyScreen() {
         icon={TrendingUp}
         title="Acompanhe sua evolução"
         description="Histórico de peso, medidas e fotos privadas aparecem aqui quando o módulo for liberado."
-        availableIn="Etapa 5"
+        availableIn="V3.0"
       />
     </>
   );

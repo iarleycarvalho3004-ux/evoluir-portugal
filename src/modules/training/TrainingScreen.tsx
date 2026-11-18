@@ -9,7 +9,7 @@ export function TrainingScreen() {
         icon={Dumbbell}
         title="Monte sua divisão semanal"
         description="Seus dias de treino, exercícios e cargas aparecem aqui quando o módulo for liberado."
-        availableIn="Etapa 3"
+        availableIn="V1.0"
       />
     </>
   );

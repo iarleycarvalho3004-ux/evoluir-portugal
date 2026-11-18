@@ -55,9 +55,9 @@ describe('Button', () => {
 });
 
 describe('EmptyState e ScreenHeader', () => {
-  it('mostra a etapa em que a função chega', () => {
-    render(<EmptyState icon={Apple} title="Título" description="Descrição." availableIn="Etapa 4" />);
-    expect(screen.getByText('Chega na Etapa 4')).toBeTruthy();
+  it('mostra a versão em que a função será desenvolvida', () => {
+    render(<EmptyState icon={Apple} title="Título" description="Descrição." availableIn="V2.0" />);
+    expect(screen.getByText('Iarley vai desenvolver na V2.0')).toBeTruthy();
   });
 
   it('mostra o título da tela como cabeçalho principal', () => {

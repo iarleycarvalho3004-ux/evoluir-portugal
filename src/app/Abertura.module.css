@@ -1,0 +1,93 @@
+/*
+  Roteiro (ms):
+    200-1000  a faixa 2:3 se desenha da esquerda para a direita
+    1100-1800 a faixa gira e vira a lateral do logotipo
+    1500-2100 a letra E se constrói
+    2000-2600 o nome sobe de uma máscara
+    3200      saída
+  Unidade --u: o palco tem 300 unidades de largura.
+*/
+.abertura {
+  --u: calc(min(72vw, 320px) / 300);
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: var(--grafite);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 450ms ease;
+}
+.saindo { opacity: 0; pointer-events: none; }
+
+.conteudo { display: flex; flex-direction: column; align-items: center; }
+
+.palco { position: relative; width: calc(var(--u) * 300); height: calc(var(--u) * 300); }
+
+.faixas {
+  position: absolute;
+  inset: 0;
+  animation: revelar 800ms 200ms cubic-bezier(0.65, 0, 0.25, 1) both;
+}
+.verde, .vermelha { position: absolute; left: calc(var(--u) * 189); width: calc(var(--u) * 28); }
+.verde {
+  top: calc(var(--u) * 90);
+  height: calc(var(--u) * 48);
+  background: var(--verde);
+  animation: virarVerde 700ms 1100ms cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+.vermelha {
+  top: calc(var(--u) * 138);
+  height: calc(var(--u) * 72);
+  background: var(--vermelho);
+  animation: virarVermelha 700ms 1100ms cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+
+.barra { position: absolute; background: var(--branco); }
+.haste {
+  left: calc(var(--u) * 83);
+  top: calc(var(--u) * 90);
+  width: calc(var(--u) * 28);
+  height: calc(var(--u) * 120);
+  transform-origin: top;
+  animation: crescerY 450ms 1500ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.bracoTopo, .bracoMeio, .bracoBase {
+  left: calc(var(--u) * 83);
+  height: calc(var(--u) * 24);
+  transform-origin: left;
+}
+.bracoTopo { top: calc(var(--u) * 90); width: calc(var(--u) * 80); animation: crescerX 380ms 1650ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.bracoMeio { top: calc(var(--u) * 138); width: calc(var(--u) * 68); animation: crescerX 380ms 1750ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.bracoBase { top: calc(var(--u) * 186); width: calc(var(--u) * 80); animation: crescerX 380ms 1850ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+/* recorta só em cima e embaixo, para a máscara do texto não cortar as laterais */
+.mascara { clip-path: inset(0 -100vw); margin-top: calc(var(--u) * 6); }
+.nome {
+  font-family: var(--fonte-titulo);
+  font-weight: 600;
+  font-size: calc(var(--u) * 28);
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  padding-left: 0.14em;
+  white-space: nowrap;
+  color: var(--branco);
+  animation: subir 650ms 2000ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes revelar { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes virarVerde {
+  from { transform: translate(calc(var(--u) * -143), calc(var(--u) * 36)) rotate(90deg) scale(0.2857, 2.5); }
+  to { transform: translate(0, 0) rotate(0deg) scale(1, 1); }
+}
+@keyframes virarVermelha {
+  from { transform: translate(calc(var(--u) * 7), calc(var(--u) * -24)) rotate(90deg) scale(0.2857, 2.5); }
+  to { transform: translate(0, 0) rotate(0deg) scale(1, 1); }
+}
+@keyframes crescerY { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes crescerX { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes subir { from { transform: translateY(110%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .faixas, .verde, .vermelha, .barra, .nome { animation: none; }
+}

@@ -6,7 +6,7 @@ type EmptyStateProps = {
   icon: LucideIcon;
   title: string;
   description: string;
-  /** Etapa do projeto em que a função será liberada, por exemplo "Etapa 3". */
+  /** Versão em que a função será desenvolvida, por exemplo "V1.0". */
   availableIn?: string;
 };
 
@@ -18,7 +18,7 @@ export function EmptyState({ icon: Icon, title, description, availableIn }: Empt
       </div>
       <h2 className={styles.titulo}>{title}</h2>
       <p className={styles.descricao}>{description}</p>
-      {availableIn ? <span className={styles.etapa}>Chega na {availableIn}</span> : null}
+      {availableIn ? <span className={styles.etapa}>Iarley vai desenvolver na {availableIn}</span> : null}
     </Card>
   );
 }
