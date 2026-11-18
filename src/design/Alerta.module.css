@@ -1,0 +1,9 @@
+.alerta { display: flex; gap: var(--esp-3); padding: var(--esp-3) var(--esp-4); border-radius: var(--raio-controle); border: 1px solid var(--borda); background: var(--superficie-alta); }
+.icone { flex: none; margin-top: 2px; }
+.titulo { font-weight: 500; font-size: 0.9375rem; }
+.texto { color: var(--texto-suave); font-size: 0.875rem; margin-top: var(--esp-1); }
+.info .icone { color: var(--verde-realce); }
+.aviso { border-color: rgba(218, 41, 28, 0.5); }
+.aviso .icone { color: var(--vermelho-claro); }
+.critico { border-color: var(--vermelho); background: rgba(218, 41, 28, 0.14); }
+.critico .icone { color: var(--vermelho-claro); }

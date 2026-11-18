@@ -1,0 +1,5 @@
+.titulo { font-size: 1.0625rem; font-weight: 500; margin-bottom: var(--esp-4); }
+.blocos { display: flex; flex-direction: column; gap: var(--esp-5); }
+.rotulo { color: var(--texto-suave); font-size: 0.8125rem; margin-bottom: var(--esp-1); }
+.valor { font-weight: 500; margin-top: var(--esp-2); font-variant-numeric: tabular-nums; }
+.nota { color: var(--texto-fraco); font-size: 0.8125rem; margin-top: var(--esp-2); }

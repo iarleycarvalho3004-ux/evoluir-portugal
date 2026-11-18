@@ -3,8 +3,9 @@
 ## Estado
 - Etapa 2A: concluída (publicação, CI verde, página validada no iPhone).
 - Etapa 2B: estrutura visual aprovada pelo proprietário (aparência validada no iPhone).
-- Etapa 2C: em validação (instalação, abertura animada, aviso de nova versão).
-- Próximas: 2D dados, 2E backup. Nenhuma iniciada.
+- Etapa 2C: aprovada pelo proprietário (instalação, abertura animada, aviso de nova versão).
+- Etapa 2D: em validação (camada de dados, perfil opcional, armazenamento e alertas). Versão 0.4.0.
+- Próxima: 2E backup. Não iniciada.
 
 ## Stack aprovada
 Vite + React + TypeScript + Dexie + Recharts + CSS Modules. fflate para ZIP de backup.
@@ -42,3 +43,10 @@ testes; transparência; continuidade; resumo ao fim de cada etapa; mudanças de 
 - Sem cache offline e sem service worker. Aviso de nova versão por version.json (comparação do build).
 - Numeração de versões: 0.x fundação (0.3 = 2C, 0.4 = 2D dados, 0.5 = 2E backup); a partir da V1.0, um módulo por versão
   (V1.0 Treino, V2.0 Nutrição, V3.0 Evolução, V4.0 Hábitos, V5.0 Dashboard, V6.0 Assistente). Nas telas vazias, o texto é "Iarley vai desenvolver na Vx.x".
+
+## Decisões da 2D
+- Schema Dexie v1 contém só `profile` e `settings` (registros únicos, id "main"). Tabelas de cada módulo entram por migração na etapa dele.
+- Perfil: todos os campos opcionais (altura, nascimento OU idade aproximada, sexo, objetivo, meta de peso, restrições). Cada campo mostra sua finalidade.
+- Validação com Zod (estrito: campos desconhecidos são recusados). Dados inválidos não são gravados.
+- Armazenamento: pedido de persistência na abertura, resultado real exibido; alerta de espaço a 70% e 90%; alerta de uso no Safari em vez do app instalado; aviso de backup (nunca / desatualizado / em dia).
+- Pendentes para etapas futuras: "incluir no contexto da IA" por campo (V6.0); metas calóricas (V2.0); nível de treino (V1.0); registro do último backup (V0.5).

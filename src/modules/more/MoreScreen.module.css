@@ -1,6 +1,7 @@
 .bloco { margin-bottom: var(--esp-3); }
 .lista { list-style: none; margin: 0; padding: 0; }
 .linha { display: flex; align-items: flex-start; gap: var(--esp-3); padding: var(--esp-3) 0; color: var(--texto-suave); }
+.link .texto { flex: 1; }
 .linha:first-child { padding-top: 0; }
 .linha:last-child { padding-bottom: 0; }
 .linha + .linha { border-top: 1px solid var(--borda); }
@@ -10,3 +11,4 @@
 .planejado { font-size: 0.75rem; color: var(--texto-fraco); margin-top: var(--esp-1); }
 .versao { display: grid; grid-template-columns: auto 1fr; gap: var(--esp-1) var(--esp-4); margin: var(--esp-6) 0 0; font-size: 0.8125rem; color: var(--texto-fraco); }
 .versao dd { margin: 0; color: var(--texto-suave); }
+.link { display: flex; align-items: flex-start; gap: var(--esp-3); width: 100%; min-height: var(--toque-min); color: inherit; text-decoration: none; }

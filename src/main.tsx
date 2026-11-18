@@ -3,8 +3,12 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { Abertura } from './app/Abertura';
 import { App } from './app/App';
+import { solicitarPersistencia } from './core/storage/armazenamento';
 import './design/tokens.css';
 import './app/global.css';
+
+// Pede ao navegador que trate os dados como persistentes. O iOS pode ignorar o pedido.
+void solicitarPersistencia();
 
 const root = document.getElementById('root');
 if (!root) throw new Error('Elemento #root não encontrado.');

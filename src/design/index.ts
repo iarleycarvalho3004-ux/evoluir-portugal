@@ -1,6 +1,8 @@
+export { Alerta } from './Alerta';
 export { Button } from './Button';
 export { Card } from './Card';
 export { EmptyState } from './EmptyState';
+export { Field } from './Field';
 export { FlagBar } from './FlagBar';
 export { ProgressBar } from './ProgressBar';
 export { ScreenHeader } from './ScreenHeader';

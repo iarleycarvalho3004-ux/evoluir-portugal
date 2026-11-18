@@ -1,0 +1,7 @@
+.titulo { font-size: 1.0625rem; font-weight: 500; margin-bottom: var(--esp-2); }
+.texto { color: var(--texto-suave); font-size: 0.9375rem; }
+.formulario { display: flex; flex-direction: column; gap: var(--esp-5); margin-top: var(--esp-5); }
+.acoes { display: flex; flex-wrap: wrap; gap: var(--esp-3); margin-top: var(--esp-2); }
+.sucesso { color: var(--verde-realce); font-size: 0.9375rem; }
+.erro { color: var(--vermelho-claro); font-size: 0.9375rem; }
+.apagar { margin-top: var(--esp-6); padding-top: var(--esp-5); border-top: 1px solid var(--borda); display: flex; flex-direction: column; gap: var(--esp-3); align-items: flex-start; }

@@ -5,6 +5,7 @@ import { BodyScreen } from '../modules/body/BodyScreen';
 import { DashboardScreen } from '../modules/dashboard/DashboardScreen';
 import { MoreScreen } from '../modules/more/MoreScreen';
 import { NutritionScreen } from '../modules/nutrition/NutritionScreen';
+import { SettingsScreen } from '../modules/settings/SettingsScreen';
 import { TrainingScreen } from '../modules/training/TrainingScreen';
 import { AvisoAtualizacao } from './AvisoAtualizacao';
 import { BottomNav } from './BottomNav';
@@ -25,6 +26,7 @@ export function App({ buscarVersao }: AppProps = {}) {
           <Route path="/nutricao" element={<NutritionScreen />} />
           <Route path="/evolucao" element={<BodyScreen />} />
           <Route path="/mais" element={<MoreScreen />} />
+          <Route path="/mais/configuracoes" element={<SettingsScreen />} />
           <Route path="*" element={<NotFoundScreen />} />
         </Routes>
       </main>
