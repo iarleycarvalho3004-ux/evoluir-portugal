@@ -4,7 +4,7 @@
 - Etapa 2A: concluída (publicação, CI verde, página validada no iPhone).
 - Etapa 2B: estrutura visual aprovada pelo proprietário (aparência validada no iPhone).
 - Etapa 2C: aprovada pelo proprietário (instalação, abertura animada, aviso de nova versão).
-- Etapa 2D: em validação (camada de dados, perfil opcional, armazenamento e alertas). Versão 0.4.0.
+- Etapa 2D: em validação (camada de dados, perfil opcional, armazenamento e alertas). Versão 0.4.1 (refinamento visual e de conteúdo após a primeira validação no iPhone).
 - Próxima: 2E backup. Não iniciada.
 
 ## Stack aprovada
@@ -50,3 +50,12 @@ testes; transparência; continuidade; resumo ao fim de cada etapa; mudanças de 
 - Validação com Zod (estrito: campos desconhecidos são recusados). Dados inválidos não são gravados.
 - Armazenamento: pedido de persistência na abertura, resultado real exibido; alerta de espaço a 70% e 90%; alerta de uso no Safari em vez do app instalado; aviso de backup (nunca / desatualizado / em dia).
 - Pendentes para etapas futuras: "incluir no contexto da IA" por campo (V6.0); metas calóricas (V2.0); nível de treino (V1.0); registro do último backup (V0.5).
+
+## Refinamentos da 2D (feedback do proprietário)
+- Configurações redesenhada: painel do perfil com números grandes e IMC/diferença para a meta calculados de verdade; blocos Medidas, Sobre você, Objetivo e Alimentação; barra de salvar fixa só quando há alterações; painel "Seus dados" com status.
+- Peso atual adicionado ao perfil (`currentWeightKg`). É o ponto de partida: na V3.0 vira o primeiro registro do histórico de peso.
+- Objetivos ampliados para 8, cada um com descrição (hipertrofia, ganho de peso, emagrecimento, definição, recomposição, manutenção, força, saúde e condicionamento).
+- Restrições alimentares como opções marcáveis, com campo para restrições próprias.
+- Campo de data corrigido para o iOS (não estoura mais o cartão).
+- "App instalado" virou selo discreto no rodapé de Mais; o guia só aparece quando o app não está instalado.
+- Aviso de nova versão movido para o topo da tela, para não colidir com a barra de salvar.

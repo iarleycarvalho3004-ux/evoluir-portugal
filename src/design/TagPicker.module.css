@@ -1,0 +1,35 @@
+.grupo { border: 0; margin: 0; padding: 0; min-width: 0; display: flex; flex-direction: column; gap: var(--esp-3); }
+.legenda { padding: 0; font-size: 0.9375rem; font-weight: 500; margin-bottom: var(--esp-1); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+.chip { position: relative; display: inline-flex; }
+.entrada { position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0; pointer-events: none; }
+.rotulo {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--toque-min);
+  padding: 0 var(--esp-4);
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio-pilula);
+  background: var(--grafite);
+  color: var(--texto-suave);
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.entrada:checked + .rotulo { background: var(--verde); border-color: var(--verde); color: var(--branco); font-weight: 500; }
+.entrada:focus-visible + .rotulo { outline: 2px solid var(--branco); outline-offset: 2px; }
+.adicionar { display: flex; gap: var(--esp-2); align-items: stretch; }
+.campo {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 var(--esp-3);
+  background: var(--grafite);
+  color: var(--branco);
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio-controle);
+  font-family: var(--fonte-texto);
+  font-size: 1rem;
+}
+.ajuda { color: var(--texto-fraco); font-size: 0.8125rem; }
+.erro { color: var(--vermelho-claro); font-size: 0.8125rem; }

@@ -1,10 +1,23 @@
 export type Sex = 'male' | 'female';
-export type Goal = 'hypertrophy' | 'fat-loss' | 'recomposition' | 'maintenance';
+
+export const GOALS = [
+  'hypertrophy',
+  'weight-gain',
+  'fat-loss',
+  'definition',
+  'recomposition',
+  'maintenance',
+  'strength',
+  'health',
+] as const;
+export type Goal = (typeof GOALS)[number];
 
 /** Perfil único do aparelho. Todos os campos de dados pessoais são opcionais. */
 export interface Profile {
   id: 'main';
   heightCm?: number;
+  /** Ponto de partida. O histórico de peso (V3.0) começa a partir deste valor. */
+  currentWeightKg?: number;
   birthDate?: string;
   approxAge?: number;
   sex?: Sex;

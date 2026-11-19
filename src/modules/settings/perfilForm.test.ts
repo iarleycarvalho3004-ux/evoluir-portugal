@@ -3,7 +3,7 @@ import { formularioDoPerfil, formularioVazio, lerFormulario } from './perfilForm
 import type { PerfilFormulario } from './perfilForm';
 
 function com(parcial: Partial<PerfilFormulario>): PerfilFormulario {
-  return { ...formularioVazio, ...parcial };
+  return { ...formularioVazio, restricoes: [], ...parcial };
 }
 
 describe('lerFormulario', () => {
@@ -12,13 +12,18 @@ describe('lerFormulario', () => {
   });
 
   it('aceita vírgula como separador decimal', () => {
-    const resultado = lerFormulario(com({ altura: '178,5', metaPeso: '80' }));
-    expect(resultado).toEqual({ ok: true, dados: { heightCm: 178.5, targetWeightKg: 80 } });
+    const resultado = lerFormulario(com({ altura: '178,5', peso: '80,5', metaPeso: '75' }));
+    expect(resultado).toEqual({ ok: true, dados: { heightCm: 178.5, currentWeightKg: 80.5, targetWeightKg: 75 } });
   });
 
   it('recusa altura fora da faixa', () => {
     const resultado = lerFormulario(com({ altura: '5' }));
     expect(resultado).toEqual({ ok: false, erros: { altura: 'Informe uma altura entre 100 e 250 cm.' } });
+  });
+
+  it('recusa peso fora da faixa', () => {
+    const resultado = lerFormulario(com({ peso: '10' }));
+    expect(resultado).toEqual({ ok: false, erros: { peso: 'Informe um peso entre 30 e 300 kg.' } });
   });
 
   it('recusa texto não numérico', () => {
@@ -27,23 +32,21 @@ describe('lerFormulario', () => {
   });
 
   it('recusa data de nascimento futura', () => {
-    const resultado = lerFormulario(com({ nascimento: '2999-01-01' }));
-    expect(resultado.ok).toBe(false);
+    expect(lerFormulario(com({ nascimento: '2999-01-01' })).ok).toBe(false);
   });
 
   it('recusa informar data de nascimento e idade ao mesmo tempo', () => {
-    const resultado = lerFormulario(com({ nascimento: '1990-05-10', idadeAprox: '30' }));
-    expect(resultado.ok).toBe(false);
+    expect(lerFormulario(com({ nascimento: '1990-05-10', idadeAprox: '30' })).ok).toBe(false);
   });
 
-  it('separa e limpa as restrições alimentares', () => {
-    const resultado = lerFormulario(com({ restricoes: 'lactose, glúten;  lactose\n amendoim ,' }));
-    expect(resultado).toEqual({ ok: true, dados: { dietaryRestrictions: ['lactose', 'glúten', 'amendoim'] } });
+  it('limpa as restrições alimentares sem diferenciar maiúsculas', () => {
+    const resultado = lerFormulario(com({ restricoes: ['lactose', ' Lactose ', 'glúten', ''] }));
+    expect(resultado).toEqual({ ok: true, dados: { dietaryRestrictions: ['lactose', 'glúten'] } });
   });
 
   it('inclui sexo e objetivo só quando escolhidos', () => {
-    const resultado = lerFormulario(com({ sexo: 'male', objetivo: 'hypertrophy' }));
-    expect(resultado).toEqual({ ok: true, dados: { sex: 'male', goal: 'hypertrophy' } });
+    const resultado = lerFormulario(com({ sexo: 'male', objetivo: 'weight-gain' }));
+    expect(resultado).toEqual({ ok: true, dados: { sex: 'male', goal: 'weight-gain' } });
   });
 });
 
@@ -56,12 +59,14 @@ describe('formularioDoPerfil', () => {
     const formulario = formularioDoPerfil({
       id: 'main',
       heightCm: 178.5,
+      currentWeightKg: 80,
       dietaryRestrictions: ['lactose', 'glúten'],
       createdAt: '2026-01-01T00:00:00.000Z',
       updatedAt: '2026-01-01T00:00:00.000Z',
     });
     expect(formulario.altura).toBe('178,5');
-    expect(formulario.restricoes).toBe('lactose, glúten');
+    expect(formulario.peso).toBe('80');
+    expect(formulario.restricoes).toEqual(['lactose', 'glúten']);
     expect(formulario.nascimento).toBe('');
   });
 });

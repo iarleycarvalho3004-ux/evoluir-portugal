@@ -1,26 +1,16 @@
+import { Check } from 'lucide-react';
 import { Card } from '../../design';
 import { detectarInstalacao, lerAmbiente } from '../../core/pwa/instalacao';
 import type { Ambiente } from '../../core/pwa/instalacao';
 import styles from './InstallGuide.module.css';
 
-type InstallGuideProps = { ambiente?: Ambiente };
+type InstallProps = { ambiente?: Ambiente };
 
-export function InstallGuide({ ambiente }: InstallGuideProps) {
+/** Guia de instalação. Some quando o app já está instalado (o selo discreto assume). */
+export function InstallGuide({ ambiente }: InstallProps) {
   const estado = detectarInstalacao(ambiente ?? lerAmbiente());
 
-  if (estado === 'instalado') {
-    return (
-      <Card>
-        <h2 className={styles.titulo}>App instalado</h2>
-        <p className={styles.texto}>
-          Você está usando o EVOLUIR PORTUGAL pela Tela de Início. Seus dados ficam guardados neste aparelho.
-        </p>
-        <p className={styles.nota}>
-          O armazenamento do iPhone não é garantido. O backup, que ainda será desenvolvido, é a proteção real.
-        </p>
-      </Card>
-    );
-  }
+  if (estado === 'instalado') return null;
 
   if (estado === 'ios-safari') {
     return (
@@ -56,5 +46,16 @@ export function InstallGuide({ ambiente }: InstallGuideProps) {
         A instalação é feita pelo Safari do iPhone. No computador, o app funciona direto no navegador.
       </p>
     </Card>
+  );
+}
+
+/** Selo de uma linha, só quando o app já está instalado. */
+export function InstallBadge({ ambiente }: InstallProps) {
+  if (detectarInstalacao(ambiente ?? lerAmbiente()) !== 'instalado') return null;
+  return (
+    <p className={styles.selo}>
+      <Check size={14} aria-hidden="true" />
+      App instalado na Tela de Início
+    </p>
   );
 }

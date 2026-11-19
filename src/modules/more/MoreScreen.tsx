@@ -3,7 +3,8 @@ import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card, ScreenHeader } from '../../design';
 import { formatarData } from '../../core/utils/formatarData';
-import { InstallGuide } from './InstallGuide';
+import { detectarInstalacao, lerAmbiente } from '../../core/pwa/instalacao';
+import { InstallBadge, InstallGuide } from './InstallGuide';
 import styles from './MoreScreen.module.css';
 
 type Recurso = { nome: string; descricao: string; planejado: string; icon: LucideIcon; to?: string };
@@ -21,12 +22,15 @@ const recursos: Recurso[] = [
 ];
 
 export function MoreScreen() {
+  const instalado = detectarInstalacao(lerAmbiente()) === 'instalado';
   return (
     <>
       <ScreenHeader title="Mais" subtitle="Outros recursos do app" />
-      <div className={styles.bloco}>
-        <InstallGuide />
-      </div>
+      {instalado ? null : (
+        <div className={styles.bloco}>
+          <InstallGuide />
+        </div>
+      )}
       <Card>
         <ul className={styles.lista}>
           {recursos.map(({ nome, descricao, planejado, icon: Icon, to }) => {
@@ -55,12 +59,15 @@ export function MoreScreen() {
           })}
         </ul>
       </Card>
-      <dl className={styles.versao}>
-        <dt>Versão</dt>
-        <dd>{__APP_VERSION__}</dd>
-        <dt>Gerado em</dt>
-        <dd>{formatarData(__BUILD_TIME__)}</dd>
-      </dl>
+      <footer className={styles.rodape}>
+        <InstallBadge />
+        <dl className={styles.versao}>
+          <dt>Versão</dt>
+          <dd>{__APP_VERSION__}</dd>
+          <dt>Gerado em</dt>
+          <dd>{formatarData(__BUILD_TIME__)}</dd>
+        </dl>
+      </footer>
     </>
   );
 }

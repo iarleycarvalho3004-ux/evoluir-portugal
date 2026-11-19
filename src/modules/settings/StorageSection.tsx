@@ -1,4 +1,6 @@
+import { ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import { lerConfiguracoes } from '../../core/db/repositorios';
 import type { Settings } from '../../core/db/types';
 import { detectarInstalacao, lerAmbiente } from '../../core/pwa/instalacao';
@@ -6,53 +8,69 @@ import { formatarBytes } from '../../core/storage/armazenamento';
 import type { EstadoPersistencia } from '../../core/storage/armazenamento';
 import { avaliarBackup } from '../../core/storage/avisoBackup';
 import { useArmazenamento } from '../../core/storage/useArmazenamento';
-import { Alerta, Card, ProgressBar } from '../../design';
+import { Alerta, FormSection, ProgressBar } from '../../design';
 import styles from './StorageSection.module.css';
 
-const TEXTO_PERSISTENCIA: Record<EstadoPersistencia, { titulo: string; texto: string }> = {
+type Tom = 'ok' | 'atencao' | 'neutro';
+
+type LinhaProps = { tom: Tom; titulo: string; valor: string; nota?: string; children?: ReactNode };
+
+function Linha({ tom, titulo, valor, nota, children }: LinhaProps) {
+  return (
+    <div className={styles.linha}>
+      <span className={`${styles.ponto} ${styles[tom]}`} aria-hidden="true" />
+      <div className={styles.conteudo}>
+        <p className={styles.titulo}>{titulo}</p>
+        <p className={styles.valor}>{valor}</p>
+        {children}
+        {nota ? <p className={styles.nota}>{nota}</p> : null}
+      </div>
+    </div>
+  );
+}
+
+const PERSISTENCIA: Record<EstadoPersistencia, { tom: Tom; valor: string; nota: string }> = {
   concedida: {
-    titulo: 'Concedido',
-    texto: 'O iPhone marcou os dados como persistentes. Ainda assim, isso não é uma garantia.',
+    tom: 'ok',
+    valor: 'Concedido',
+    nota: 'O iPhone marcou os dados como persistentes. Ainda assim, isso não é uma garantia.',
   },
   'nao-concedida': {
-    titulo: 'Não concedido',
-    texto: 'O iPhone não concedeu proteção extra. Isso é comum e não impede o uso, mas torna o backup ainda mais importante.',
+    tom: 'atencao',
+    valor: 'Não concedido',
+    nota: 'Isso é comum e não impede o uso, mas torna o backup ainda mais importante.',
   },
   indisponivel: {
-    titulo: 'Indisponível',
-    texto: 'Este navegador não informa o estado do armazenamento persistente.',
+    tom: 'neutro',
+    valor: 'Indisponível',
+    nota: 'Este navegador não informa o estado do armazenamento persistente.',
   },
 };
 
-function BlocoBackup({ configuracoes }: { configuracoes: Settings | 'erro' | null }) {
-  if (configuracoes === null) return null;
+function linhaDeBackup(configuracoes: Settings | 'erro' | null): LinhaProps {
+  const titulo = 'Backup';
+  if (configuracoes === null) return { tom: 'neutro', titulo, valor: 'Verificando…' };
   if (configuracoes === 'erro') {
-    return (
-      <Alerta tone="aviso" title="Backup não verificado">
-        Não foi possível ler as configurações deste aparelho.
-      </Alerta>
-    );
+    return { tom: 'neutro', titulo, valor: 'Não verificado', nota: 'Não foi possível ler as configurações deste aparelho.' };
   }
   const aviso = avaliarBackup(configuracoes.lastBackupAt, new Date(), configuracoes.backupReminderDays);
   if (aviso.tipo === 'nunca') {
-    return (
-      <Alerta tone="aviso" title="Você ainda não fez backup">
-        A exportação será desenvolvida na V0.5. Até lá, seus dados existem só neste aparelho.
-      </Alerta>
-    );
+    return {
+      tom: 'atencao',
+      titulo,
+      valor: 'Nunca feito',
+      nota: 'A exportação será desenvolvida na V0.5. Até lá, seus dados existem só neste aparelho.',
+    };
   }
   if (aviso.tipo === 'desatualizado') {
-    return (
-      <Alerta tone="aviso" title="Backup desatualizado">
-        O último backup foi há {aviso.dias} dias.
-      </Alerta>
-    );
+    return { tom: 'atencao', titulo, valor: 'Desatualizado', nota: `O último backup foi há ${aviso.dias} dias.` };
   }
-  return (
-    <Alerta tone="info" title="Backup em dia">
-      O último backup foi há {aviso.dias} {aviso.dias === 1 ? 'dia' : 'dias'}.
-    </Alerta>
-  );
+  return {
+    tom: 'ok',
+    titulo,
+    valor: 'Em dia',
+    nota: `O último backup foi há ${aviso.dias} ${aviso.dias === 1 ? 'dia' : 'dias'}.`,
+  };
 }
 
 export function StorageSection() {
@@ -63,67 +81,66 @@ export function StorageSection() {
   useEffect(() => {
     let ativo = true;
     lerConfiguracoes()
-      .then((c) => ativo && setConfiguracoes(c))
-      .catch(() => ativo && setConfiguracoes('erro'));
+      .then((c) => {
+        if (ativo) setConfiguracoes(c);
+      })
+      .catch(() => {
+        if (ativo) setConfiguracoes('erro');
+      });
     return () => {
       ativo = false;
     };
   }, []);
 
-  const textoPersistencia = TEXTO_PERSISTENCIA[persistencia];
   const porcentagem = espaco ? Math.round(espaco.fracao * 100) : 0;
+  const dadosPersistencia = PERSISTENCIA[persistencia];
 
   return (
-    <Card>
-      <h2 className={styles.titulo}>Armazenamento</h2>
-      <div className={styles.blocos}>
-        {instalacao === 'ios-safari' || instalacao === 'ios-outro' ? (
-          <Alerta tone="aviso" title="Você não está usando o app instalado">
-            No navegador, o iOS pode apagar os dados de um site que fique cerca de 7 dias sem uso. O app instalado na Tela
-            de Início não segue essa regra. Instale antes de registrar dados (veja o guia em Mais).
-          </Alerta>
-        ) : null}
+    <FormSection icon={ShieldCheck} title="Seus dados" subtitle="Tudo fica só neste aparelho">
+      {instalacao === 'ios-safari' || instalacao === 'ios-outro' ? (
+        <Alerta tone="aviso" title="Você não está usando o app instalado">
+          No navegador, o iOS pode apagar os dados de um site que fique cerca de 7 dias sem uso. O app instalado na Tela de
+          Início não segue essa regra. Instale antes de registrar dados (veja o guia em Mais).
+        </Alerta>
+      ) : null}
 
-        <div>
-          <p className={styles.rotulo}>Armazenamento persistente</p>
-          <p className={styles.valor}>{carregando ? 'Verificando…' : textoPersistencia.titulo}</p>
-          {carregando ? null : <p className={styles.nota}>{textoPersistencia.texto}</p>}
-        </div>
+      <div className={styles.linhas}>
+        {carregando ? (
+          <Linha tom="neutro" titulo="Armazenamento persistente" valor="Verificando…" />
+        ) : (
+          <Linha tom={dadosPersistencia.tom} titulo="Armazenamento persistente" valor={dadosPersistencia.valor} nota={dadosPersistencia.nota} />
+        )}
 
-        <div>
-          <p className={styles.rotulo}>Espaço usado</p>
-          {carregando ? (
-            <p className={styles.valor}>Verificando…</p>
-          ) : espaco ? (
-            <>
-              <ProgressBar value={porcentagem} label="Espaço usado" tone={espaco.nivel === 'ok' ? 'normal' : 'alerta'} />
-              <p className={styles.valor}>
-                {formatarBytes(espaco.usado)} de {formatarBytes(espaco.quota)} ({porcentagem < 1 ? 'menos de 1' : porcentagem}%)
-              </p>
-              <p className={styles.nota}>Estimativa aproximada feita pelo navegador. No iOS, os números podem ser imprecisos.</p>
-            </>
-          ) : (
-            <p className={styles.nota}>Este navegador não informa o espaço usado.</p>
-          )}
-        </div>
+        {carregando ? (
+          <Linha tom="neutro" titulo="Espaço usado" valor="Verificando…" />
+        ) : espaco ? (
+          <Linha
+            tom={espaco.nivel === 'ok' ? 'ok' : 'atencao'}
+            titulo="Espaço usado"
+            valor={`${formatarBytes(espaco.usado)} de ${formatarBytes(espaco.quota)} (${porcentagem < 1 ? 'menos de 1' : porcentagem}%)`}
+            nota="Estimativa aproximada feita pelo navegador. No iOS, os números podem ser imprecisos."
+          >
+            <ProgressBar value={porcentagem} label="Espaço usado" tone={espaco.nivel === 'ok' ? 'normal' : 'alerta'} />
+          </Linha>
+        ) : (
+          <Linha tom="neutro" titulo="Espaço usado" valor="Indisponível" nota="Este navegador não informa o espaço usado." />
+        )}
 
-        {espaco?.nivel === 'aviso' ? (
-          <Alerta tone="aviso" title="Espaço ficando cheio">
-            Mais de 70% do espaço disponível está em uso. Faça backup e evite guardar arquivos desnecessários.
-          </Alerta>
-        ) : null}
-        {espaco?.nivel === 'critico' ? (
-          <Alerta tone="critico" title="Espaço quase esgotado">
-            Mais de 90% do espaço disponível está em uso. Novos registros podem falhar. Faça backup agora.
-          </Alerta>
-        ) : null}
-
-        <BlocoBackup configuracoes={configuracoes} />
-
-        <p className={styles.nota}>
-          Nada disso substitui o backup. O armazenamento do iPhone nunca deve ser tratado como permanente.
-        </p>
+        <Linha {...linhaDeBackup(configuracoes)} />
       </div>
-    </Card>
+
+      {espaco?.nivel === 'aviso' ? (
+        <Alerta tone="aviso" title="Espaço ficando cheio">
+          Mais de 70% do espaço disponível está em uso. Faça backup e evite guardar arquivos desnecessários.
+        </Alerta>
+      ) : null}
+      {espaco?.nivel === 'critico' ? (
+        <Alerta tone="critico" title="Espaço quase esgotado">
+          Mais de 90% do espaço disponível está em uso. Novos registros podem falhar. Faça backup agora.
+        </Alerta>
+      ) : null}
+
+      <p className={styles.rodape}>Nada disso substitui o backup. O armazenamento do iPhone nunca deve ser tratado como permanente.</p>
+    </FormSection>
   );
 }

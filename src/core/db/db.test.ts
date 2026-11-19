@@ -34,6 +34,18 @@ describe('perfil', () => {
     expect((await lerPerfil(banco))?.heightCm).toBe(178.5);
   });
 
+  it('salva peso atual e os novos objetivos', async () => {
+    const salvo = await salvarPerfil({ currentWeightKg: 80.5, goal: 'weight-gain' }, banco);
+    expect(salvo.currentWeightKg).toBe(80.5);
+    expect(salvo.goal).toBe('weight-gain');
+  });
+
+  it('rejeita objetivo desconhecido e peso fora da faixa', async () => {
+    const objetivoInvalido = { goal: 'voar' } as unknown as Parameters<typeof salvarPerfil>[0];
+    await expect(salvarPerfil(objetivoInvalido, banco)).rejects.toThrow();
+    await expect(salvarPerfil({ currentWeightKg: 10 }, banco)).rejects.toThrow();
+  });
+
   it('aceita perfil totalmente vazio', async () => {
     const salvo = await salvarPerfil({}, banco);
     expect(salvo.id).toBe('main');

@@ -1,17 +1,27 @@
-.campo { display: flex; flex-direction: column; gap: var(--esp-2); }
+.campo { display: flex; flex-direction: column; gap: var(--esp-2); min-width: 0; }
 .rotulo { font-size: 0.9375rem; font-weight: 500; }
 .controle {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   min-height: 48px;
   padding: 0 var(--esp-3);
   background: var(--grafite);
   color: var(--branco);
   border: 1px solid var(--borda-forte);
   border-radius: var(--raio-controle);
+  text-align: left;
   /* 16 px evita o zoom automático do Safari ao tocar no campo */
   font-family: var(--fonte-texto);
   font-size: 1rem;
+  line-height: 1.2;
 }
+/* o iOS centraliza o valor do campo de data e ignora a largura sem estas regras */
+.controle::-webkit-date-and-time-value { text-align: left; }
+.controle::-webkit-datetime-edit { padding: 0; }
 .controle[aria-invalid='true'] { border-color: var(--vermelho); }
 .ajuda { color: var(--texto-fraco); font-size: 0.8125rem; }
 .erro { color: var(--vermelho-claro); font-size: 0.8125rem; }

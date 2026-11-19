@@ -1,9 +1,13 @@
 export { Alerta } from './Alerta';
 export { Button } from './Button';
 export { Card } from './Card';
+export { ChoiceGroup } from './ChoiceGroup';
+export type { Choice } from './ChoiceGroup';
 export { EmptyState } from './EmptyState';
 export { Field } from './Field';
 export { FlagBar } from './FlagBar';
+export { FormSection } from './FormSection';
 export { ProgressBar } from './ProgressBar';
 export { ScreenHeader } from './ScreenHeader';
 export { Stat } from './Stat';
+export { TagPicker } from './TagPicker';

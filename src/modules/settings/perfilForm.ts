@@ -4,12 +4,13 @@ import type { Goal, Profile, Sex } from '../../core/db/types';
 
 export type PerfilFormulario = {
   altura: string;
+  peso: string;
   nascimento: string;
   idadeAprox: string;
   sexo: '' | Sex;
   objetivo: '' | Goal;
   metaPeso: string;
-  restricoes: string;
+  restricoes: string[];
 };
 
 export type ErrosFormulario = Partial<Record<keyof PerfilFormulario, string>>;
@@ -18,16 +19,18 @@ export type ResultadoFormulario = { ok: true; dados: ProfileInput } | { ok: fals
 
 export const formularioVazio: PerfilFormulario = {
   altura: '',
+  peso: '',
   nascimento: '',
   idadeAprox: '',
   sexo: '',
   objetivo: '',
   metaPeso: '',
-  restricoes: '',
+  restricoes: [],
 };
 
 const CAMPO_DO_SCHEMA: Record<string, keyof PerfilFormulario> = {
   heightCm: 'altura',
+  currentWeightKg: 'peso',
   birthDate: 'nascimento',
   approxAge: 'idadeAprox',
   sex: 'sexo',
@@ -41,15 +44,16 @@ function paraTexto(valor: number | undefined): string {
 }
 
 export function formularioDoPerfil(perfil: Profile | null): PerfilFormulario {
-  if (!perfil) return { ...formularioVazio };
+  if (!perfil) return { ...formularioVazio, restricoes: [] };
   return {
     altura: paraTexto(perfil.heightCm),
+    peso: paraTexto(perfil.currentWeightKg),
     nascimento: perfil.birthDate ?? '',
     idadeAprox: paraTexto(perfil.approxAge),
     sexo: perfil.sex ?? '',
     objetivo: perfil.goal ?? '',
     metaPeso: paraTexto(perfil.targetWeightKg),
-    restricoes: (perfil.dietaryRestrictions ?? []).join(', '),
+    restricoes: [...(perfil.dietaryRestrictions ?? [])],
   };
 }
 
@@ -59,12 +63,18 @@ function lerNumero(texto: string): number | undefined {
   return limpo === '' ? undefined : Number(limpo);
 }
 
-function lerRestricoes(texto: string): string[] {
-  const itens = texto
-    .split(/[,;\n]/)
-    .map((item) => item.trim())
-    .filter((item) => item !== '');
-  return Array.from(new Set(itens));
+/** Remove vazios e repetições (sem diferenciar maiúsculas), mantendo a primeira grafia. */
+function limparRestricoes(itens: string[]): string[] {
+  const vistos = new Set<string>();
+  const resultado: string[] = [];
+  for (const item of itens) {
+    const limpo = item.trim();
+    const chave = limpo.toLocaleLowerCase('pt-BR');
+    if (limpo === '' || vistos.has(chave)) continue;
+    vistos.add(chave);
+    resultado.push(limpo);
+  }
+  return resultado;
 }
 
 export function lerFormulario(formulario: PerfilFormulario): ResultadoFormulario {
@@ -74,10 +84,12 @@ export function lerFormulario(formulario: PerfilFormulario): ResultadoFormulario
 
   const bruto: Record<string, unknown> = {};
   const altura = lerNumero(formulario.altura);
+  const peso = lerNumero(formulario.peso);
   const idade = lerNumero(formulario.idadeAprox);
   const meta = lerNumero(formulario.metaPeso);
-  const restricoes = lerRestricoes(formulario.restricoes);
+  const restricoes = limparRestricoes(formulario.restricoes);
   if (altura !== undefined) bruto.heightCm = altura;
+  if (peso !== undefined) bruto.currentWeightKg = peso;
   if (formulario.nascimento.trim() !== '') bruto.birthDate = formulario.nascimento.trim();
   if (idade !== undefined) bruto.approxAge = idade;
   if (formulario.sexo !== '') bruto.sex = formulario.sexo;

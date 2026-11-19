@@ -2,7 +2,7 @@
   position: fixed;
   z-index: 20;
   left: 50%;
-  bottom: calc(var(--altura-nav) + env(safe-area-inset-bottom, 0px) + var(--esp-3));
+  top: calc(env(safe-area-inset-top, 0px) + var(--esp-2));
   transform: translateX(-50%);
   width: calc(100% - 2 * var(--esp-4));
   max-width: calc(var(--largura-max) - 2 * var(--esp-4));
