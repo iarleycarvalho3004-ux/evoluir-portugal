@@ -1,0 +1,30 @@
+.passos { display: flex; gap: var(--esp-1); list-style: none; margin: 0; padding: 0; }
+.passo { flex: 1; display: flex; flex-direction: column; gap: var(--esp-2); }
+.barra { height: 4px; border-radius: 2px; background: var(--superficie-alta); }
+.rotulo { font-size: 0.6875rem; color: var(--texto-fraco); }
+.feito .barra { background: var(--verde-realce); }
+.ativo .barra { background: var(--branco); }
+.ativo .rotulo { color: var(--branco); font-weight: 500; }
+.bloco { display: flex; flex-direction: column; gap: var(--esp-4); }
+.texto { color: var(--texto-suave); font-size: 0.9375rem; }
+.dados { display: grid; grid-template-columns: auto 1fr; gap: var(--esp-2) var(--esp-4); margin: 0; font-size: 0.875rem; }
+.dados dt { color: var(--texto-fraco); }
+.dados dd { margin: 0; color: var(--texto-suave); min-width: 0; }
+.quebra { word-break: break-all; }
+.lista { margin: 0; padding-left: var(--esp-5); color: var(--texto-suave); font-size: 0.9375rem; display: flex; flex-direction: column; gap: var(--esp-1); }
+.acoes { display: flex; flex-wrap: wrap; gap: var(--esp-2); }
+.arquivo { position: relative; display: inline-flex; align-self: flex-start; }
+.entradaArquivo { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.botaoArquivo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--esp-6);
+  border-radius: var(--raio-controle);
+  background: var(--verde);
+  color: var(--branco);
+  font-weight: 500;
+  cursor: pointer;
+}
+.entradaArquivo:focus-visible + .botaoArquivo { outline: 2px solid var(--branco); outline-offset: 2px; }

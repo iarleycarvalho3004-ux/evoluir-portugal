@@ -35,3 +35,14 @@ export interface Settings {
   createdAt: string;
   updatedAt: string;
 }
+
+export type SnapshotReason = 'before-restore' | 'before-undo';
+
+/** Cópia de segurança automática feita antes de restaurar dados. O payload é um arquivo de backup completo. */
+export interface Snapshot {
+  id: string;
+  createdAt: string;
+  reason: SnapshotReason;
+  payload: string;
+  recordCounts: Record<string, number>;
+}

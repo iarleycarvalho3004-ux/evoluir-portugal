@@ -1,9 +1,10 @@
 import { ShieldCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 import { lerConfiguracoes } from '../../core/db/repositorios';
 import type { Settings } from '../../core/db/types';
-import { detectarInstalacao, lerAmbiente } from '../../core/pwa/instalacao';
+import { detectarInstalacao, detectarSistema, lerAmbiente } from '../../core/pwa/instalacao';
 import { formatarBytes } from '../../core/storage/armazenamento';
 import type { EstadoPersistencia } from '../../core/storage/armazenamento';
 import { avaliarBackup } from '../../core/storage/avisoBackup';
@@ -47,7 +48,7 @@ const PERSISTENCIA: Record<EstadoPersistencia, { tom: Tom; valor: string; nota: 
   },
 };
 
-function linhaDeBackup(configuracoes: Settings | 'erro' | null): LinhaProps {
+function linhaDeBackup(configuracoes: Settings | 'erro' | null): Omit<LinhaProps, 'children'> {
   const titulo = 'Backup';
   if (configuracoes === null) return { tom: 'neutro', titulo, valor: 'Verificando…' };
   if (configuracoes === 'erro') {
@@ -59,7 +60,7 @@ function linhaDeBackup(configuracoes: Settings | 'erro' | null): LinhaProps {
       tom: 'atencao',
       titulo,
       valor: 'Nunca feito',
-      nota: 'A exportação será desenvolvida na V0.5. Até lá, seus dados existem só neste aparelho.',
+      nota: 'Seus dados existem só neste aparelho. Faça um backup para protegê-los.',
     };
   }
   if (aviso.tipo === 'desatualizado') {
@@ -76,7 +77,9 @@ function linhaDeBackup(configuracoes: Settings | 'erro' | null): LinhaProps {
 export function StorageSection() {
   const { carregando, persistencia, espaco } = useArmazenamento();
   const [configuracoes, setConfiguracoes] = useState<Settings | 'erro' | null>(null);
-  const instalacao = detectarInstalacao(lerAmbiente());
+  const ambiente = lerAmbiente();
+  const instalacao = detectarInstalacao(ambiente);
+  const sistema = detectarSistema(ambiente);
 
   useEffect(() => {
     let ativo = true;
@@ -97,6 +100,11 @@ export function StorageSection() {
 
   return (
     <FormSection icon={ShieldCheck} title="Seus dados" subtitle="Tudo fica só neste aparelho">
+      {instalacao !== 'instalado' && sistema === 'android' ? (
+        <Alerta tone="info" title="Instalar o app ajuda">
+          Instalar o app na tela inicial aumenta as chances de o navegador manter seus dados. Veja o guia em Mais.
+        </Alerta>
+      ) : null}
       {instalacao === 'ios-safari' || instalacao === 'ios-outro' ? (
         <Alerta tone="aviso" title="Você não está usando o app instalado">
           No navegador, o iOS pode apagar os dados de um site que fique cerca de 7 dias sem uso. O app instalado na Tela de
@@ -126,7 +134,11 @@ export function StorageSection() {
           <Linha tom="neutro" titulo="Espaço usado" valor="Indisponível" nota="Este navegador não informa o espaço usado." />
         )}
 
-        <Linha {...linhaDeBackup(configuracoes)} />
+        <Linha {...linhaDeBackup(configuracoes)}>
+          <Link to="/mais/backup" className={styles.link}>
+            Abrir backup e restauração
+          </Link>
+        </Linha>
       </div>
 
       {espaco?.nivel === 'aviso' ? (

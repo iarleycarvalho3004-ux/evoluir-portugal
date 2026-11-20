@@ -4,8 +4,9 @@
 - Etapa 2A: concluída (publicação, CI verde, página validada no iPhone).
 - Etapa 2B: estrutura visual aprovada pelo proprietário (aparência validada no iPhone).
 - Etapa 2C: aprovada pelo proprietário (instalação, abertura animada, aviso de nova versão).
-- Etapa 2D: em validação (camada de dados, perfil opcional, armazenamento e alertas). Versão 0.4.1 (refinamento visual e de conteúdo após a primeira validação no iPhone).
-- Próxima: 2E backup. Não iniciada.
+- Etapa 2D: aprovada pelo proprietário (dados, perfil opcional, armazenamento e alertas).
+- Etapa 2E: em validação (backup, restauração e tutorial de instalação por sistema). Versão 0.5.0.
+- Próxima: Etapa 3 (Treino, V1.0). Não iniciada.
 
 ## Stack aprovada
 Vite + React + TypeScript + Dexie + Recharts + CSS Modules. fflate para ZIP de backup.
@@ -59,3 +60,14 @@ testes; transparência; continuidade; resumo ao fim de cada etapa; mudanças de 
 - Campo de data corrigido para o iOS (não estoura mais o cartão).
 - "App instalado" virou selo discreto no rodapé de Mais; o guia só aparece quando o app não está instalado.
 - Aviso de nova versão movido para o topo da tela, para não colidir com a barra de salvar.
+
+## Decisões da 2E
+- Backup em JSON (padrão, sem fotos), com checksum SHA-256 sobre o JSON canônico dos dados. SHA-256 nativo (crypto.subtle) com reserva em JavaScript puro.
+- Validação em memória antes de qualquer gravação: limite de 25 MB, profundidade máxima 12, schema estrito (Zod), versões, ids repetidos, integridade referencial (lista `RELACOES`, vazia até haver tabelas com relacionamentos).
+- Restauração: prévia → escolha (mesclar ou substituir) → snapshot criado, relido e verificado → confirmação explícita → gravação em uma única transação. Cancelável até a confirmação; desfazer pelo snapshot. Mantidos os 3 snapshots mais recentes; podem ser salvos em Arquivos.
+- Mesclagem por tipo de dado: perfil (registro único) com conflito resolvido pelo usuário (padrão: o mais recente); configurações mantêm as deste aparelho, exceto a data do último backup (a mais recente). Tabelas futuras declaram suas regras em `restaurar.ts` e suas relações em `RELACOES`.
+- Schema Dexie v2: tabela `snapshots` (fora do backup).
+- Fotos e ZIP (fflate): adiados para a V3.0, quando existirem fotos. Um arquivo que declare fotos é recusado com mensagem clara.
+- Exportação em dois toques (gerar, depois salvar) para a folha de compartilhamento do iOS aceitar o gesto. A data do último backup só é registrada depois que o arquivo é entregue.
+- Avisos de backup: linha em Configurações e aviso na tela Início (só quando há dados).
+- Tutorial de instalação por sistema: iOS (Safari / outros navegadores) e Android (Chrome e similares, Samsung Internet, Firefox). No Chrome do Android, botão "Instalar agora" quando o navegador libera o aviso de instalação.

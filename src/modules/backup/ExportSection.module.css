@@ -1,0 +1,9 @@
+.linhas { display: grid; grid-template-columns: auto 1fr; gap: var(--esp-2) var(--esp-4); margin: 0; font-size: 0.875rem; }
+.linhas dt { color: var(--texto-fraco); }
+.linhas dd { margin: 0; color: var(--texto-suave); }
+.arquivo { display: flex; flex-direction: column; gap: var(--esp-2); padding: var(--esp-4); background: var(--grafite); border: 1px solid var(--borda); border-radius: var(--raio-controle); }
+.nome { font-weight: 500; word-break: break-all; }
+.detalhe { color: var(--texto-fraco); font-size: 0.8125rem; word-break: break-word; }
+.acoes { display: flex; flex-wrap: wrap; gap: var(--esp-2); margin-top: var(--esp-2); }
+.sucesso { color: var(--verde-realce); font-size: 0.9375rem; }
+.erro { color: var(--vermelho-claro); font-size: 0.9375rem; }

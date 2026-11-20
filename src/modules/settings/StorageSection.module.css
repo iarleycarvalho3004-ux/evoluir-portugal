@@ -11,3 +11,4 @@
 .valor { font-weight: 500; font-variant-numeric: tabular-nums; }
 .nota { color: var(--texto-fraco); font-size: 0.8125rem; }
 .rodape { color: var(--texto-fraco); font-size: 0.8125rem; }
+.link { color: var(--verde-realce); font-size: 0.875rem; align-self: flex-start; min-height: var(--toque-min); display: inline-flex; align-items: center; }

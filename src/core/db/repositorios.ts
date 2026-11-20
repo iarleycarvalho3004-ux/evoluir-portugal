@@ -46,3 +46,18 @@ export async function lerConfiguracoes(banco: EvoluirDB = obterBanco()): Promise
     return padrao;
   });
 }
+
+/** Lê as configurações sem criar nada. Devolve null se ainda não existirem. */
+export async function lerConfiguracoesExistentes(banco: EvoluirDB = obterBanco()): Promise<Settings | null> {
+  return (await banco.settings.get('main')) ?? null;
+}
+
+/** Registra que um backup foi entregue ao usuário (momento em que o arquivo foi gerado). */
+export async function registrarBackupFeito(emIso: string, banco: EvoluirDB = obterBanco()): Promise<void> {
+  await lerConfiguracoes(banco);
+  await banco.transaction('rw', banco.settings, async () => {
+    const atual = await banco.settings.get('main');
+    if (!atual) throw new Error('Configurações não encontradas.');
+    await banco.settings.put({ ...atual, lastBackupAt: emIso, updatedAt: new Date().toISOString() });
+  });
+}

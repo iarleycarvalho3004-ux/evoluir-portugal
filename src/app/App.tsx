@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { useVersaoNova } from '../core/update/useVersaoNova';
 import type { buscarVersaoPublicada } from '../core/update/versao';
+import { BackupScreen } from '../modules/backup/BackupScreen';
 import { BodyScreen } from '../modules/body/BodyScreen';
 import { DashboardScreen } from '../modules/dashboard/DashboardScreen';
 import { MoreScreen } from '../modules/more/MoreScreen';
@@ -27,6 +28,7 @@ export function App({ buscarVersao }: AppProps = {}) {
           <Route path="/evolucao" element={<BodyScreen />} />
           <Route path="/mais" element={<MoreScreen />} />
           <Route path="/mais/configuracoes" element={<SettingsScreen />} />
+          <Route path="/mais/backup" element={<BackupScreen />} />
           <Route path="*" element={<NotFoundScreen />} />
         </Routes>
       </main>

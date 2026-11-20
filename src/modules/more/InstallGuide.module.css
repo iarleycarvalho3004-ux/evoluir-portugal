@@ -3,3 +3,4 @@
 .passos { margin: 0; padding-left: var(--esp-5); color: var(--texto-suave); font-size: 0.9375rem; display: flex; flex-direction: column; gap: var(--esp-2); }
 .nota { color: var(--texto-fraco); font-size: 0.8125rem; margin-top: var(--esp-3); }
 .selo { display: inline-flex; align-items: center; gap: var(--esp-2); color: var(--texto-fraco); font-size: 0.8125rem; }
+.instalarAgora { display: flex; flex-direction: column; align-items: flex-start; gap: var(--esp-2); margin-bottom: var(--esp-4); }

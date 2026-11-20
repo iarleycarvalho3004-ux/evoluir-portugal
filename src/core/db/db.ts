@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 import type { EntityTable } from 'dexie';
-import type { Profile, Settings } from './types';
+import type { Profile, Settings, Snapshot } from './types';
 
 /**
  * Banco local (IndexedDB). Regras de evolução do schema:
@@ -11,12 +11,17 @@ import type { Profile, Settings } from './types';
 export class EvoluirDB extends Dexie {
   declare profile: EntityTable<Profile, 'id'>;
   declare settings: EntityTable<Settings, 'id'>;
+  declare snapshots: EntityTable<Snapshot, 'id'>;
 
   constructor(nome = 'evoluir-portugal') {
     super(nome);
     this.version(1).stores({
       profile: 'id',
       settings: 'id',
+    });
+    // v2 (2E): cópias de segurança automáticas. Não altera nem apaga dados existentes.
+    this.version(2).stores({
+      snapshots: 'id, createdAt',
     });
   }
 }

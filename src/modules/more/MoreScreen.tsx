@@ -1,4 +1,4 @@
-import { ChevronRight, ListChecks, Settings, Sparkles } from 'lucide-react';
+import { Archive, ChevronRight, ListChecks, Settings, Sparkles } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card, ScreenHeader } from '../../design';
@@ -7,18 +7,13 @@ import { detectarInstalacao, lerAmbiente } from '../../core/pwa/instalacao';
 import { InstallBadge, InstallGuide } from './InstallGuide';
 import styles from './MoreScreen.module.css';
 
-type Recurso = { nome: string; descricao: string; planejado: string; icon: LucideIcon; to?: string };
+type Recurso = { nome: string; descricao: string; planejado?: string; icon: LucideIcon; to?: string };
 
 const recursos: Recurso[] = [
+  { nome: 'Configurações', descricao: 'Perfil e armazenamento', icon: Settings, to: '/mais/configuracoes' },
+  { nome: 'Backup e restauração', descricao: 'Exporte, restaure e proteja seus dados', icon: Archive, to: '/mais/backup' },
   { nome: 'Hábitos', descricao: 'Água, sono e checklist diário', planejado: 'Iarley vai desenvolver na V4.0', icon: ListChecks },
   { nome: 'Assistente', descricao: 'Orientações com inteligência artificial', planejado: 'Iarley vai desenvolver na V6.0', icon: Sparkles },
-  {
-    nome: 'Configurações',
-    descricao: 'Perfil e armazenamento',
-    planejado: 'Backup e restauração: Iarley vai desenvolver na V0.5',
-    icon: Settings,
-    to: '/mais/configuracoes',
-  },
 ];
 
 export function MoreScreen() {
@@ -40,7 +35,7 @@ export function MoreScreen() {
                 <div className={styles.texto}>
                   <p className={styles.nome}>{nome}</p>
                   <p className={styles.descricao}>{descricao}</p>
-                  <p className={styles.planejado}>{planejado}</p>
+                  {planejado ? <p className={styles.planejado}>{planejado}</p> : null}
                 </div>
                 {to ? <ChevronRight size={20} aria-hidden="true" /> : null}
               </>

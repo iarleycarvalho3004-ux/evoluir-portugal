@@ -1,6 +1,6 @@
 import { Archive, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { FormSection, ScreenHeader } from '../../design';
+import { Button, FormSection, ScreenHeader } from '../../design';
 import { ProfileSection } from './ProfileSection';
 import { StorageSection } from './StorageSection';
 import styles from './SettingsScreen.module.css';
@@ -16,7 +16,13 @@ export function SettingsScreen() {
       <div className={styles.secoes}>
         <ProfileSection />
         <StorageSection />
-        <FormSection icon={Archive} title="Backup e restauração" subtitle="Iarley vai desenvolver na V0.5" />
+        <FormSection icon={Archive} title="Backup e restauração" subtitle="Exporte e restaure seus dados">
+          <div>
+            <Button to="/mais/backup" variant="secundario">
+              Abrir backup
+            </Button>
+          </div>
+        </FormSection>
       </div>
     </>
   );

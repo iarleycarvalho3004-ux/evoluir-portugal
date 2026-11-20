@@ -15,10 +15,10 @@ afterEach(async () => {
 });
 
 describe('banco', () => {
-  it('abre na versão 1 com as tabelas profile e settings', async () => {
+  it('abre na versão 2 com as tabelas profile, settings e snapshots', async () => {
     await banco.open();
-    expect(banco.verno).toBe(1);
-    expect(banco.tables.map((t) => t.name).sort()).toEqual(['profile', 'settings']);
+    expect(banco.verno).toBe(2);
+    expect(banco.tables.map((t) => t.name).sort()).toEqual(['profile', 'settings', 'snapshots']);
   });
 });
 
